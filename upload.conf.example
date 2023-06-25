@@ -1,0 +1,31 @@
+#!/bin/bash
+
+export OS_USERNAME="username"
+export OS_PASSWORD="password"
+export OS_TENANT_NAME="name"
+export OS_USER_DOMAIN_NAME=default
+
+export OS_AUTH_AMD64="https://os-amd64.example:5000/v3"
+export OS_AUTH_ARM64="https://os-arm64.example:5000/v3"
+export OS_AUTH_PPC64="https://os-ppc64.example:5000/v3"
+export OS_TENANT_AMD64="xyz1"
+export OS_TENANT_ARM64="xyz2"
+export OS_TENANT_PPC64="xyz3"
+
+function upload() {
+  NAME="$1"
+  FILE="$2"
+
+  DEBUG=""
+  glance $DEBUG image-create \
+   --property hw_scsi_model=virtio-scsi \
+   --property hw_disk_bus=scsi \
+   --property hw_qemu_guest_agent=yes \
+   --property os_require_quiesce=yes \
+   --progress \
+   --name "$NAME" \
+   --file="$FILE" \
+   --disk-format="raw" \
+   --container-format="bare" \
+   --visibility="private"
+}
